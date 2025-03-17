@@ -1,10 +1,27 @@
 #include <iostream>
 
+#include "../include/sudoku.h"
+
 int main() {
 
-    std::cout << "Hello world" << std::endl;
-    char c = 97+15;
-    std::cout << c  << " " << std::endl;
+    // Init sudoku
+    short subGridSize = 4;
+    ClassicSudoku* sudoku = new ClassicSudoku{subGridSize};
+
+    // Display board (all 0s)
+    sudoku->displayBoard();
+
+    // Fill each row from 1 to subGridSize^2
+    bool success = true;
+    for (int i = 0; i < sudoku->getGridArea(); i++){
+        success = success & sudoku->setValue(i, (i%sudoku->getGridSize())+1);
+    }
+
+    // Display board again
+    sudoku->displayBoard();
+
+    // Check mBoard is being deleted
+    delete sudoku;
 
     return 0;
 }
