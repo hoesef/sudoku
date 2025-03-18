@@ -6,7 +6,7 @@ int main() {
 
     // Init sudoku
     short subGridSize = 4;
-    ClassicSudoku* sudoku = new ClassicSudoku{subGridSize};
+    Sudoku* sudoku = new Sudoku{subGridSize};
 
     // Display board (all 0s)
     sudoku->displayBoard();
