@@ -21,8 +21,8 @@ bool ClassicSudoku::isValid(const char value, const char row, const char col, co
     }
     // Check subGrids for uniquness
     short subGridSize = sqrt(gridSize);
-    char rowStart = (row % subGridSize) * gridSize;
-    char colStart = (col % subGridSize) * gridSize;
+    char rowStart = (row / subGridSize) * subGridSize;
+    char colStart = (col / subGridSize) * subGridSize;
     for (int i = 0; i < subGridSize; i++) {
         for (int j = 0; j < subGridSize; j++) {
             if (board[((rowStart+i) * gridSize) + (colStart+j)] == value) { return false; }
