@@ -17,7 +17,7 @@ class Sudoku {
 
     public:
         // Sudoku() {};
-        Sudoku(short subGridSize, RuleSet* puzzleRules);
+        Sudoku(short subGridSize, RuleSet& puzzleRules);
         const char getSubGridSize() const { return mSubGridSize; }
         const char getGridSize() const { return mGridSize; }
         const short getGridArea() const { return mGridArea; }

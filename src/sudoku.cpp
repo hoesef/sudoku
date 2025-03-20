@@ -1,7 +1,7 @@
 #include "../include/sudoku.h"
 #include <iostream>
 
-Sudoku::Sudoku(short subGridSize, RuleSet* puzzleRules) {
+Sudoku::Sudoku(short subGridSize, RuleSet& puzzleRules) {
     // Invalid subgrid size given
     if (subGridSize <= 0) { return; }
 
@@ -18,7 +18,7 @@ Sudoku::Sudoku(short subGridSize, RuleSet* puzzleRules) {
     // 
     std::cout << "Doing the do...\n";
 
-    mRules = new RuleSet(*puzzleRules);
+    mRules = new RuleSet(puzzleRules);
     std::cout << "Do done...\n";
 };
 bool Sudoku::setValue(const char& row, const char& col, const char& value) {
