@@ -32,6 +32,10 @@ int main() {
     RuleSet* ruleSet = new RuleSet(rules, numRules);
     Sudoku* sudoku = new Sudoku(subGridSize, ruleSet);
 
+    std::cout << "\nMade sudoku\n\n";
+
+    std::cin >> numRules;
+
     // Display board (all 0s)
     // sudoku->displayBoard();
 
@@ -41,8 +45,8 @@ int main() {
     for (int i = 0; i < sudoku->getGridArea(); i++){
         for (int val = 1; val <= sudoku->getGridSize(); val++){
             // char val = (i % sudoku->getGridSize()) + 1;
-            // std::cout << "Val to place: " << int(val) << " at index: " << i << "\n";
-            if (!sudoku->isValid(val, i)) { continue; }
+            std::cout << "Val to place: " << int(val) << " at index: " << i << "\n";
+            if (!sudoku->isValid(val, i)) { std::cout << "Invalid, skipping\n\n"; continue; }
             // if (!forwarddiagonal->isValid(val, i, sudoku->getBoard(), sudoku->getGridSize())) { continue; }
             // if (!backwardDiagonal->isValid(val, i, sudoku->getBoard(), sudoku->getGridSize())) { continue; };
             // std::cout << "Inside the if statement.\n";
@@ -50,6 +54,8 @@ int main() {
             break;
         }
     }
+
+    std::cout << "For loop successfull\n";
 
     // Display board again
     sudoku->displayBoard();
@@ -59,8 +65,12 @@ int main() {
     // Check mBoard is being deleted
     delete sudoku;
     std::cout << "\n";
-    // delete forwarddiagonal;
-    // delete backwardDiagonal;
+
+    std::cout << "\nClean up\n";
+    delete classic;
+    delete forwarddiagonal;
+    delete backwardDiagonal;
+    std::cout << "Clean up successfull";
 
     return 0;
 }
