@@ -92,6 +92,27 @@ bool BackwardDiagonal::isValid(const char value, const char row, const char col,
     return true;
 }
 
+KillerSudoku::KillerSudoku(const KillerSudoku& other) {
+    mNumCages = other.mNumCages;
+    mCageLengths = new int[mNumCages]{0};
+    mCageSums = new int[mNumCages]{0};
+    mCages = new int*[mNumCages]{nullptr};
+
+    int currentLen = 0;
+    for (int i = 0; i < mNumCages; i++) {
+        // Get current length of cage
+        currentLen = other.mCageLengths[i];
+        // Set cage length and sum
+        mCageLengths[i] = currentLen;
+        mCageSums[i] = other.mCageSums[i];
+        // Make new cage array
+        mCages[i] = new int[currentLen]{0};
+        // Copy cage data
+        for (int j = 0; j < currentLen; j++) {
+            mCages[i][j] = other.mCages[i][j];
+        }
+    }
+}
 KillerSudoku::KillerSudoku(int** cages, int* cageLengths, int*cageSums, int numCages) {
     mNumCages = numCages;
     mCageLengths = new int[mNumCages]{0};
@@ -110,6 +131,43 @@ KillerSudoku::KillerSudoku(int** cages, int* cageLengths, int*cageSums, int numC
         // Copy cage data
         for (int j = 0; j < currentLen; j++) {
             mCages[i][j] = cages[i][j];
+        }
+    }
+}
+KillerSudoku& KillerSudoku::operator=(const KillerSudoku& other) {
+
+    // ---Free any data already set---//
+    // Free cages
+    for (int i = 0; i < mNumCages; i++) {
+        delete [] mCages[i];
+        mCages[i] = nullptr;
+    }
+    delete [] mCages;
+
+    // Free cage lengths
+    delete [] mCageLengths;
+
+    // Free cage sums
+    delete [] mCageSums;
+    // ------------------------------ //
+
+    mNumCages = other.mNumCages;
+    mCageLengths = new int[mNumCages]{0};
+    mCageSums = new int[mNumCages]{0};
+    mCages = new int*[mNumCages]{nullptr};
+
+    int currentLen = 0;
+    for (int i = 0; i < mNumCages; i++) {
+        // Get current length of cage
+        currentLen = other.mCageLengths[i];
+        // Set cage length and sum
+        mCageLengths[i] = currentLen;
+        mCageSums[i] = other.mCageSums[i];
+        // Make new cage array
+        mCages[i] = new int[currentLen]{0};
+        // Copy cage data
+        for (int j = 0; j < currentLen; j++) {
+            mCages[i][j] = other.mCages[i][j];
         }
     }
 }
@@ -167,6 +225,24 @@ KillerSudoku::~KillerSudoku() {
     std::cout << "SudokuRules: KillerSudoku destructor called\n"; 
 }
 
+ThermoSudoku::ThermoSudoku(const ThermoSudoku& other) {
+    mNumThermometers = other.mNumThermometers;
+    mThermometerLengths = new int[mNumThermometers]{0};
+    mThermometers = new int*[mNumThermometers]{nullptr};
+
+    int currentLen = 0;
+    for (int i = 0; i < mNumThermometers; i++) {
+        // Get current length of thermometer
+        currentLen = other.mThermometerLengths[i];
+        mThermometerLengths[i] = currentLen;
+        // Make new thermometer array
+        mThermometers[i] = new int[currentLen]{0};
+        for (int j = 0; j < currentLen; j++) {
+            // Copy thermometer data
+            mThermometers[i][j] = other.mThermometers[i][j];
+        }
+    }
+}
 ThermoSudoku::ThermoSudoku(int** thermometers, int* thermometerLengths, int numThermometers) {
     mNumThermometers = numThermometers;
     mThermometerLengths = new int[mNumThermometers]{0};
@@ -184,6 +260,36 @@ ThermoSudoku::ThermoSudoku(int** thermometers, int* thermometerLengths, int numT
             mThermometers[i][j] = thermometers[i][j];
         }
     }
+}
+ThermoSudoku& ThermoSudoku::operator=(const ThermoSudoku& other) {
+    // Free thermometers
+    for (int i = 0; i < mNumThermometers; i++) {
+        delete [] mThermometers[i];
+        mThermometers[i] = nullptr;
+    }
+    delete [] mThermometers;
+
+    // Free thermometer length array
+    delete [] mThermometerLengths;
+    std::cout << "SudokuRules: ThermoSudoku destructor called\n"; 
+
+    mNumThermometers = other.mNumThermometers;
+    mThermometerLengths = new int[mNumThermometers]{0};
+    mThermometers = new int*[mNumThermometers]{nullptr};
+
+    int currentLen = 0;
+    for (int i = 0; i < mNumThermometers; i++) {
+        // Get current length of thermometer
+        currentLen = other.mThermometerLengths[i];
+        mThermometerLengths[i] = currentLen;
+        // Make new thermometer array
+        mThermometers[i] = new int[currentLen]{0};
+        for (int j = 0; j < currentLen; j++) {
+            // Copy thermometer data
+            mThermometers[i][j] = other.mThermometers[i][j];
+        }
+    }
+
 }
 void ThermoSudoku::findThermometerIndex(const short index, int& thermometer, int& length) {
     for (thermometer = 0; thermometer < mNumThermometers; thermometer++) {
