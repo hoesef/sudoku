@@ -4,6 +4,7 @@
 #include "../include/utils/conversion.h"
 
 bool ClassicSudoku::isValid(const char value, const short index, const char* board, char gridSize) {
+    std::cout << "In classic sudoku isValid\n";
     char row, col;
     toRowCol(index, gridSize, row, col);
     // Check rows for uniquness
@@ -28,6 +29,7 @@ bool ClassicSudoku::isValid(const char value, const short index, const char* boa
     return true;    
 }
 bool ClassicSudoku::isValid(const char value, const char row, const char col, const char* board, char gridSize) {
+    std::cout << "In classic sudoku isValid\n";
     // Check rows for uniquness
     short startIndex = row*gridSize;
     for (int i = 0; i < gridSize; i++) {
@@ -51,6 +53,7 @@ bool ClassicSudoku::isValid(const char value, const char row, const char col, co
 }
 
 bool ForwardDiagonal::isValid(const char value, const short index, const char* board, char gridSize) {
+    std::cout << "In Fowward diagonal isValid\n";
     char row, col;
     toRowCol(index, gridSize, row, col);
     // Check if on forward diagonal
@@ -62,6 +65,7 @@ bool ForwardDiagonal::isValid(const char value, const short index, const char* b
     return true;
 }
 bool ForwardDiagonal::isValid(const char value, const char row, const char col, const char* board, char gridSize) {
+    std::cout << "In Forward diagonal isValid\n";
     // Check if on forward diagonal
     if (row + col != (gridSize-1)) { return true; }
     // Check forward diagonal [(0,8), (1,7), ..., (7,1), (8,0)] for uniquness
@@ -72,6 +76,7 @@ bool ForwardDiagonal::isValid(const char value, const char row, const char col, 
 }
 
 bool BackwardDiagonal::isValid(const char value, const short index, const char* board, char gridSize) {
+    std::cout << "In Backward Diagonal isValid\n";
     char row, col;
     toRowCol(index, gridSize, row, col);
     // Check if on backward diagonal
@@ -83,6 +88,7 @@ bool BackwardDiagonal::isValid(const char value, const short index, const char* 
     return true;
 }
 bool BackwardDiagonal::isValid(const char value, const char row, const char col, const char* board, char gridSize) {
+    std::cout << "In Backward Diagonal isValid\n";
     // Check if on backward diagonal
     if (row != col) { return true; }
     // Check forward diagonal [(0,0), (1,1), ..., (7,7), (8,8)] for uniquness
@@ -170,6 +176,7 @@ KillerSudoku& KillerSudoku::operator=(const KillerSudoku& other) {
             mCages[i][j] = other.mCages[i][j];
         }
     }
+    return *this;
 }
 void KillerSudoku::findCageIndex(const short index, int& cage, int& length) {
     // Look through every cage
@@ -289,7 +296,7 @@ ThermoSudoku& ThermoSudoku::operator=(const ThermoSudoku& other) {
             mThermometers[i][j] = other.mThermometers[i][j];
         }
     }
-
+    return *this;
 }
 void ThermoSudoku::findThermometerIndex(const short index, int& thermometer, int& length) {
     for (thermometer = 0; thermometer < mNumThermometers; thermometer++) {
