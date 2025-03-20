@@ -51,8 +51,6 @@ int main() {
         }
     }
 
-    std::cout << sudoku->getEmpty() << "\n";
-
     if (!sudoku->isValid()) {
         std::cout << "Board is invalid";
         return 0;
