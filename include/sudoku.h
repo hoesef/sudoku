@@ -2,6 +2,7 @@
 #define SUDOKU_H_
 
 #include <iostream>
+#include "ruleSet.h"
 
 class Sudoku {
 
@@ -12,22 +13,24 @@ class Sudoku {
         char* mBoard{nullptr};
         bool mIsSolved{false};
         unsigned short mEmptyCells{0};
+        RuleSet* mRules{nullptr};
 
     public:
-        Sudoku() {};
-        Sudoku(short subGridSize);
-        short getSubGridSize() const { return mSubGridSize; }
-        short getGridSize() const { return mGridSize; }
-        int getGridArea() const { return mGridArea; }
-        bool setValue(const short& row, const short& col, const char& value);
-        bool setValue(const int& index, const char& value);
-        char getValue(const short& row, const short& col) const;
-        char getValue(const int& index) const;
+        // Sudoku() {};
+        Sudoku(short subGridSize, RuleSet* puzzleRules);
+        const char getSubGridSize() const { return mSubGridSize; }
+        const char getGridSize() const { return mGridSize; }
+        const short getGridArea() const { return mGridArea; }
+        const char* getBoard() const { return mBoard; }
+        bool setValue(const char& row, const char& col, const char& value);
+        bool setValue(const short& index, const char& value);
+        char getValue(const char& row, const char& col) const;
+        char getValue(const short& index) const;
         void displayBoard() const;
         bool isValid();
-        bool isValid(const short& row, const short& col);
-        bool isValid(const int& index);
-        ~Sudoku() { delete [] mBoard; std::cout << "Deleted mBoard";}
+        bool isValid(const char value, const char& row, const char& col);
+        bool isValid(const char value, const short& index);
+        ~Sudoku();
 };
 
 #endif
