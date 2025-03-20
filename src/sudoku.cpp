@@ -1,6 +1,20 @@
 #include "../include/sudoku.h"
 #include <iostream>
 
+Sudoku::Sudoku(const Sudoku& other) {
+    mSubGridSize = other.mSubGridSize;
+    mGridSize = other.mGridSize;
+    mGridArea = other.mGridArea;
+    mEmptyCells = other.mEmptyCells;
+    mIsSolved = other.mIsSolved;
+
+    mBoard = new char[mGridArea]{0};
+    for (int i = 0; i < mGridArea; i++) {
+        mBoard[i] = other.mBoard[i];
+    }
+
+    mRules = new RuleSet(*other.mRules);
+}
 Sudoku::Sudoku(short subGridSize, RuleSet& puzzleRules) {
     // Invalid subgrid size given
     if (subGridSize <= 0) { return; } 
@@ -16,6 +30,23 @@ Sudoku::Sudoku(short subGridSize, RuleSet& puzzleRules) {
     // Deep copy of the rules
     mRules = new RuleSet(puzzleRules);
 };
+Sudoku& Sudoku::operator=(const Sudoku& other) {
+    mSubGridSize = other.mSubGridSize;
+    mGridSize = other.mGridSize;
+    mGridArea = other.mGridArea;
+    mEmptyCells = other.mEmptyCells;
+    mIsSolved = other.mIsSolved;
+
+    delete [] mBoard;
+
+    mBoard = new char[mGridArea]{0};
+    for (int i = 0; i < mGridArea; i++) {
+        mBoard[i] = other.mBoard[i];
+    }
+
+    mRules = new RuleSet(*other.mRules);
+    return *this;
+}
 bool Sudoku::setValue(const char& row, const char& col, const char& value) {
     int index = (row * mGridSize) + col; // Calculate board index
     if (index < 0 || index >= mGridArea) { return false; } // Index out of bounds

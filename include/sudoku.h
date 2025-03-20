@@ -15,7 +15,9 @@ class Sudoku {
         RuleSet* mRules{nullptr};           // Rules for the current puzzle
 
     public:
+        Sudoku(const Sudoku& other);
         Sudoku(short subGridSize, RuleSet& puzzleRules);
+        Sudoku& operator=(const Sudoku& other);
         const char getSubGridSize() const { return mSubGridSize; }
         const char getGridSize() const { return mGridSize; }
         const short getGridArea() const { return mGridArea; }
