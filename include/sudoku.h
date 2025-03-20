@@ -1,22 +1,20 @@
 #ifndef SUDOKU_H_
 #define SUDOKU_H_
 
-#include <iostream>
 #include "ruleSet.h"
 
 class Sudoku {
 
     private:
-        char mSubGridSize{0};
-        char mGridSize{0};
-        unsigned short mGridArea{0};
-        char* mBoard{nullptr};
-        bool mIsSolved{false};
-        unsigned short mEmptyCells{0};
-        RuleSet* mRules{nullptr};
+        char mSubGridSize{0};               // Size of sub-grid (3x3) for a standard (9x9) sudoku
+        char mGridSize{0};                  // Size of the sudoku grid
+        unsigned short mGridArea{0};        // Total area of the grid (also the max index + 1)
+        char* mBoard{nullptr};              // Char array representing the sudoku grid
+        bool mIsSolved{false};              // Flag signifying completed puzzle
+        unsigned short mEmptyCells{0};      // Number of cells left to fill
+        RuleSet* mRules{nullptr};           // Rules for the current puzzle
 
     public:
-        // Sudoku() {};
         Sudoku(short subGridSize, RuleSet& puzzleRules);
         const char getSubGridSize() const { return mSubGridSize; }
         const char getGridSize() const { return mGridSize; }
