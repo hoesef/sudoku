@@ -3,7 +3,7 @@
 #include "../include/sudokuRules.h"
 #include "../include/utils/conversion.h"
 
-bool ClassicSudoku::isValid(const char value, const char index, const char*& board, char gridSize) {
+bool ClassicSudoku::isValid(const char value, const short index, const char* board, char gridSize) {
     char row, col;
     toRowCol(index, gridSize, row, col);
     // Check rows for uniquness
@@ -18,8 +18,8 @@ bool ClassicSudoku::isValid(const char value, const char index, const char*& boa
     }
     // Check subGrids for uniquness
     short subGridSize = sqrt(gridSize);
-    char rowStart = (row % subGridSize) * gridSize;
-    char colStart = (col % subGridSize) * gridSize;
+    char rowStart = (row / subGridSize) * subGridSize;
+    char colStart = (col / subGridSize)  * subGridSize;
     for (int i = 0; i < subGridSize; i++) {
         for (int j = 0; j < subGridSize; j++) {
             if (board[((rowStart+i) * gridSize) + (colStart+j)] == value) { return false; }
@@ -27,7 +27,7 @@ bool ClassicSudoku::isValid(const char value, const char index, const char*& boa
     }
     return true;    
 }
-bool ClassicSudoku::isValid(const char value, const char row, const char col, const char*& board, char gridSize) {
+bool ClassicSudoku::isValid(const char value, const char row, const char col, const char* board, char gridSize) {
     // Check rows for uniquness
     short startIndex = row*gridSize;
     for (int i = 0; i < gridSize; i++) {
@@ -50,18 +50,18 @@ bool ClassicSudoku::isValid(const char value, const char row, const char col, co
     return true;
 }
 
-bool ForwardDiagonal::isValid(const char value, const char index, const char*& board, char gridSize) {
+bool ForwardDiagonal::isValid(const char value, const short index, const char* board, char gridSize) {
     char row, col;
     toRowCol(index, gridSize, row, col);
     // Check if on forward diagonal
-    if (row + col != (gridSize-1)) { return true;}
+    if ((row + col) != (gridSize-1)) { return true; }
     // Check forward diagonal [(0,8), (1,7), ..., (7,1), (8,0)] for uniquness
     for (int i = 0; i < gridSize; i++) {
         if (board[(i * gridSize) + (gridSize-i-1)] == value) { return false; }
     }
     return true;
 }
-bool ForwardDiagonal::isValid(const char value, const char row, const char col, const char*& board, char gridSize) {
+bool ForwardDiagonal::isValid(const char value, const char row, const char col, const char* board, char gridSize) {
     // Check if on forward diagonal
     if (row + col != (gridSize-1)) { return true; }
     // Check forward diagonal [(0,8), (1,7), ..., (7,1), (8,0)] for uniquness
@@ -71,7 +71,7 @@ bool ForwardDiagonal::isValid(const char value, const char row, const char col, 
     return true;
 }
 
-bool BackwardDiagonal::isValid(const char value, const char index, const char*& board, char gridSize) {
+bool BackwardDiagonal::isValid(const char value, const short index, const char* board, char gridSize) {
     char row, col;
     toRowCol(index, gridSize, row, col);
     // Check if on backward diagonal
@@ -82,7 +82,7 @@ bool BackwardDiagonal::isValid(const char value, const char index, const char*& 
     }
     return true;
 }
-bool BackwardDiagonal::isValid(const char value, const char row, const char col, const char*& board, char gridSize) {
+bool BackwardDiagonal::isValid(const char value, const char row, const char col, const char* board, char gridSize) {
     // Check if on backward diagonal
     if (row != col) { return true; }
     // Check forward diagonal [(0,0), (1,1), ..., (7,7), (8,8)] for uniquness
@@ -113,7 +113,7 @@ KillerSudoku::KillerSudoku(int** cages, int* cageLengths, int*cageSums, int numC
         }
     }
 }
-void KillerSudoku::findCageIndex(const char index, int& cage, int& length) {
+void KillerSudoku::findCageIndex(const short index, int& cage, int& length) {
     // Look through every cage
     for (cage = 0; cage < mNumCages; cage++) {
         length = mCageLengths[cage];
@@ -126,7 +126,7 @@ void KillerSudoku::findCageIndex(const char index, int& cage, int& length) {
     length = -1;
     cage = -1;
 }
-bool KillerSudoku::isValid(const char value, const char index, const char*& board, const char gridSize) {
+bool KillerSudoku::isValid(const char value, const short index, const char* board, const char gridSize) {
     int length = -1;
     int cage = -1;
     // Find which cage contains target index
@@ -147,7 +147,7 @@ bool KillerSudoku::isValid(const char value, const char index, const char*& boar
     }
     return true;
 }
-bool KillerSudoku::isValid(const char value, const char row, const char col, const char*& board, const char gridSize) {
+bool KillerSudoku::isValid(const char value, const char row, const char col, const char* board, const char gridSize) {
     short index = toIndex(row, col, gridSize);
     return isValid(value, index, board, gridSize);
 }
@@ -164,6 +164,7 @@ KillerSudoku::~KillerSudoku() {
 
     // Free cage sums
     delete [] mCageSums;
+    std::cout << "SudokuRules: KillerSudoku destructor called\n"; 
 }
 
 ThermoSudoku::ThermoSudoku(int** thermometers, int* thermometerLengths, int numThermometers) {
@@ -184,7 +185,7 @@ ThermoSudoku::ThermoSudoku(int** thermometers, int* thermometerLengths, int numT
         }
     }
 }
-void ThermoSudoku::findThermometerIndex(const char index, int& thermometer, int& length) {
+void ThermoSudoku::findThermometerIndex(const short index, int& thermometer, int& length) {
     for (thermometer = 0; thermometer < mNumThermometers; thermometer++) {
         length = mThermometerLengths[thermometer];
         for (int i = 0; i < length; i++) {
@@ -195,7 +196,7 @@ void ThermoSudoku::findThermometerIndex(const char index, int& thermometer, int&
     thermometer = -1;
     length = -1;
 }
-bool ThermoSudoku::isValid(const char value, const char index, const char*& board, char gridSize) {
+bool ThermoSudoku::isValid(const char value, const short index, const char* board, char gridSize) {
     int length = -1;
     int thermometer = -1;
     // Find which thermometer (if any) spans index
@@ -216,7 +217,7 @@ bool ThermoSudoku::isValid(const char value, const char index, const char*& boar
     }
     return true;
 }
-bool ThermoSudoku::isValid(const char value, const char row, const char col, const char*& board, char gridSize) {
+bool ThermoSudoku::isValid(const char value, const char row, const char col, const char* board, char gridSize) {
     int index = toIndex(row, col, gridSize);
     return isValid(value, index, board, gridSize);
 }
@@ -230,4 +231,5 @@ ThermoSudoku::~ThermoSudoku() {
 
     // Free thermometer length array
     delete [] mThermometerLengths;
+    std::cout << "SudokuRules: ThermoSudoku destructor called\n"; 
 }
