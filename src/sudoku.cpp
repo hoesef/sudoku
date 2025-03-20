@@ -16,7 +16,10 @@ Sudoku::Sudoku(short subGridSize, RuleSet* puzzleRules) {
     mBoard = new char[mGridArea]{0};
 
     // 
-    mRules = puzzleRules;
+    std::cout << "Doing the do...\n";
+
+    mRules = new RuleSet(*puzzleRules);
+    std::cout << "Do done...\n";
 };
 bool Sudoku::setValue(const char& row, const char& col, const char& value) {
     int index = (row * mGridArea) + col; // Calculate index
@@ -78,7 +81,8 @@ bool Sudoku::isValid(const char value, const char& row, const char& col) {
 bool Sudoku::isValid(const char value, const short& index) {
     // TODO: code up function
     // Check if a specific cell is valid
-    return mRules->applyRules(value, index, mBoard, mGridSize);    
+    bool valid = mRules->applyRules(value, index, mBoard, mGridSize);    
+    return valid;
 };
 
 Sudoku::~Sudoku() {
