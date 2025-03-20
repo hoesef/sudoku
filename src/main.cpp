@@ -51,6 +51,11 @@ int main() {
         }
     }
 
+    if (!sudoku->isValid()) {
+        std::cout << "Board is invalid";
+        return 0;
+    }
+
     // Display board again
     sudoku->displayBoard();
 
