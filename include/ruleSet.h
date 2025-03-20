@@ -7,11 +7,11 @@
 class RuleSet {
 
     private:
-        SudokuRules** mRuleSet{nullptr};
-        int mNumRules = 0;
+        SudokuRules** mRuleSet{nullptr};    // Pointer to array of pointers to SudokuRules
+        int mNumRules = 0;                  // Number of rules in ruleset
     
     public:
-        RuleSet() {std::cout << "Created ruleset object\n\n";}
+        RuleSet() {}
         RuleSet(const RuleSet& other);
         RuleSet(SudokuRules** rules, int numRules);
         RuleSet& operator=(const RuleSet& other);
