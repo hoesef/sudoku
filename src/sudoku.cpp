@@ -8,6 +8,7 @@ Sudoku::Sudoku(short subGridSize, RuleSet& puzzleRules) {
     mSubGridSize = subGridSize;
     mGridSize = subGridSize * subGridSize;
     mGridArea = mGridSize * mGridSize;
+    mEmptyCells = mGridArea;
     // Delete any board already made
     if (mBoard) { delete [] mBoard; }
     // Initialize board and set all elements to 0
@@ -19,11 +20,15 @@ bool Sudoku::setValue(const char& row, const char& col, const char& value) {
     int index = (row * mGridSize) + col; // Calculate board index
     if (index < 0 || index >= mGridArea) { return false; } // Index out of bounds
     mBoard[index] = value; // Set vlaue
+    if (value > 0){ mEmptyCells--;}
+    else {mEmptyCells++;}
     return true;
 };
 bool Sudoku::setValue(const short& index, const char& value) {
     if (index < 0 || index >= mGridArea) { return false; } // Index out of bounds
     mBoard[index] = value; // Set valaue
+    if (value > 0){ mEmptyCells--;}
+    else {mEmptyCells++;}
     return true;
 };
 char Sudoku::getValue(const char& row, const char& col) const {

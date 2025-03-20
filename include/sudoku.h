@@ -19,6 +19,7 @@ class Sudoku {
         const char getSubGridSize() const { return mSubGridSize; }
         const char getGridSize() const { return mGridSize; }
         const short getGridArea() const { return mGridArea; }
+        const short getEmpty() const { return mEmptyCells; }
         const char* getBoard() const { return mBoard; }
         bool setValue(const char& row, const char& col, const char& value);
         bool setValue(const short& index, const char& value);
