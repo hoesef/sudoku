@@ -7,13 +7,13 @@
 class SudokuRules {
 
     private:
-        const char* mName = "Sudoku Abstract Class\n";
+        const char* mName = "Sudoku Abstract Base Class\n";      // Name of rule
 
     public:
         SudokuRules() {};
         SudokuRules(const SudokuRules& other) {};
         SudokuRules& operator=(const SudokuRules& other) {return *this; };
-        const char* getName() {return mName;}
+        const char* getName() { return mName; }
         virtual SudokuRules* clone() = 0;
         virtual bool isValid(const char value, const short index, const char* board, char gridSize) = 0;
         virtual bool isValid(const char value, const char row, const char col, const char* board, char gridSize) = 0;
@@ -27,8 +27,6 @@ class ClassicSudoku : public SudokuRules {
         const char* mName = "Classic Sudoku\n";
 
     public:
-        // ClassicSudoku(const ClassicSudoku& other) {};
-        // ClassicSudoku& operator=(const ClassicSudoku& other) { return *this; }
         virtual ClassicSudoku* clone() override { return new ClassicSudoku(*this); }
         virtual bool isValid(const char value, const short index, const char* board, char gridSize) override;
         virtual bool isValid(const char value, const char row, const char col, const char* board, char gridSize) override;
@@ -41,8 +39,6 @@ class ForwardDiagonal : public SudokuRules {
         const char* mName = "Forward Diagonal Sudoku\n";
 
     public:
-        // ForwardDiagonal(const ForwardDiagonal& other) {};
-        // ForwardDiagonal& operator=(const ForwardDiagonal& other) { return *this; }
         virtual ForwardDiagonal* clone() override { return new ForwardDiagonal(*this); }
         virtual bool isValid(const char value, const short index, const char* board, char gridSize) override;
         virtual bool isValid(const char value, const char row, const char col, const char* board, char gridSize) override;
@@ -55,8 +51,6 @@ class BackwardDiagonal : public SudokuRules {
         const char* mName = "Backward Diagonal Sudoku\n";
 
     public:
-        // BackwardDiagonal(const BackwardDiagonal& other) {};
-        // BackwardDiagonal& operator=(const BackwardDiagonal& other) { return *this; }
         virtual BackwardDiagonal* clone() override { return new BackwardDiagonal(*this); }
         virtual bool isValid(const char value, const short index, const char* board, char gridSize) override;
         virtual bool isValid(const char value, const char row, const char col, const char* board, char gridSize) override;
@@ -66,10 +60,10 @@ class BackwardDiagonal : public SudokuRules {
 class KillerSudoku : public SudokuRules {
 
     private:
-        int** mCages{nullptr};
-        int* mCageLengths{nullptr};
-        int* mCageSums{nullptr};
-        int mNumCages{0};
+        int** mCages{nullptr};                  // Pointer to array of int arrays. Each int array specifies the board indexes in a specific cage
+        int* mCageLengths{nullptr};             // Pointer to int array. Each element signifies the length of a cage
+        int* mCageSums{nullptr};                // Pointer to int array. Each element signifies the total sum of a cage
+        int mNumCages{0};                       // The number of cages
 
     public:
         KillerSudoku(const KillerSudoku& other);
@@ -88,9 +82,9 @@ class KillerSudoku : public SudokuRules {
 class ThermoSudoku : public SudokuRules {
 
     private:
-        int** mThermometers{nullptr};
-        int* mThermometerLengths{nullptr};
-        int mNumThermometers{0};
+        int** mThermometers{nullptr};           // Pointer to array of int arrays. Each int array specifies the board indexes in a specific thermometer
+        int* mThermometerLengths{nullptr};      // Pointer to int array. Each element signifies the length of a thermometer
+        int mNumThermometers{0};                // The number of thermometers
 
     public:
         ThermoSudoku(const ThermoSudoku& other);

@@ -4,32 +4,11 @@
 #include "../include/utils/conversion.h"
 
 bool ClassicSudoku::isValid(const char value, const short index, const char* board, char gridSize) {
-    std::cout << "In classic sudoku isValid\n";
     char row, col;
     toRowCol(index, gridSize, row, col);
-    // Check rows for uniquness
-    short startIndex = row*gridSize;
-    for (int i = 0; i < gridSize; i++) {
-        if (board[startIndex+i] == value) { return false; }
-    }
-    // Check colums for uniquness
-    startIndex = col;
-    for (int i = 0; i < gridSize; i++) {
-        if (board[startIndex + (i*gridSize)] == value) { return false; }
-    }
-    // Check subGrids for uniquness
-    short subGridSize = sqrt(gridSize);
-    char rowStart = (row / subGridSize) * subGridSize;
-    char colStart = (col / subGridSize)  * subGridSize;
-    for (int i = 0; i < subGridSize; i++) {
-        for (int j = 0; j < subGridSize; j++) {
-            if (board[((rowStart+i) * gridSize) + (colStart+j)] == value) { return false; }
-        }
-    }
-    return true;    
+    return isValid(value, row, col, board, gridSize);
 }
 bool ClassicSudoku::isValid(const char value, const char row, const char col, const char* board, char gridSize) {
-    std::cout << "In classic sudoku isValid\n";
     // Check rows for uniquness
     short startIndex = row*gridSize;
     for (int i = 0; i < gridSize; i++) {
@@ -53,19 +32,11 @@ bool ClassicSudoku::isValid(const char value, const char row, const char col, co
 }
 
 bool ForwardDiagonal::isValid(const char value, const short index, const char* board, char gridSize) {
-    std::cout << "In Fowward diagonal isValid\n";
     char row, col;
     toRowCol(index, gridSize, row, col);
-    // Check if on forward diagonal
-    if ((row + col) != (gridSize-1)) { return true; }
-    // Check forward diagonal [(0,8), (1,7), ..., (7,1), (8,0)] for uniquness
-    for (int i = 0; i < gridSize; i++) {
-        if (board[(i * gridSize) + (gridSize-i-1)] == value) { return false; }
-    }
-    return true;
+    return isValid(value, row, col, board, gridSize);
 }
 bool ForwardDiagonal::isValid(const char value, const char row, const char col, const char* board, char gridSize) {
-    std::cout << "In Forward diagonal isValid\n";
     // Check if on forward diagonal
     if (row + col != (gridSize-1)) { return true; }
     // Check forward diagonal [(0,8), (1,7), ..., (7,1), (8,0)] for uniquness
@@ -76,19 +47,11 @@ bool ForwardDiagonal::isValid(const char value, const char row, const char col, 
 }
 
 bool BackwardDiagonal::isValid(const char value, const short index, const char* board, char gridSize) {
-    std::cout << "In Backward Diagonal isValid\n";
     char row, col;
     toRowCol(index, gridSize, row, col);
-    // Check if on backward diagonal
-    if (row != col) { return true; }
-    // Check forward diagonal [(0,0), (1,1), ..., (7,7), (8,8)] for uniquness
-    for (int i = 0; i < gridSize; i++) {
-        if (board[(i * gridSize) + i] == value) { return false; }
-    }
-    return true;
+    return isValid(value, row, col, board, gridSize);
 }
 bool BackwardDiagonal::isValid(const char value, const char row, const char col, const char* board, char gridSize) {
-    std::cout << "In Backward Diagonal isValid\n";
     // Check if on backward diagonal
     if (row != col) { return true; }
     // Check forward diagonal [(0,0), (1,1), ..., (7,7), (8,8)] for uniquness
@@ -278,7 +241,6 @@ ThermoSudoku& ThermoSudoku::operator=(const ThermoSudoku& other) {
 
     // Free thermometer length array
     delete [] mThermometerLengths;
-    std::cout << "SudokuRules: ThermoSudoku destructor called\n"; 
 
     mNumThermometers = other.mNumThermometers;
     mThermometerLengths = new int[mNumThermometers]{0};
