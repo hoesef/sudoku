@@ -6,6 +6,7 @@
 #include "../include/ruleSet.h"
 #include "../include/sudoku.h"
 #include "../include/sudokuRules.h"
+#include "../include/generator.h"
 
 template <typename T> void userInput(T& buff) {
     std::cout << ">>> ";
@@ -27,40 +28,54 @@ int main() {
         subGridSize = 3;
     }   
 
-    // Init sudoku
-    Sudoku* sudoku;
-    {
-        short numRules = 3;
-        ClassicSudoku classic;
-        ForwardDiagonal forwardDiagonal;
-        BackwardDiagonal backwardDiagonal;
-        SudokuRules* rules[] = {&classic, &forwardDiagonal, &backwardDiagonal};
-        RuleSet ruleSet{rules, numRules};
-        sudoku = new Sudoku(subGridSize, ruleSet);
-    }
+    short numRules = 3;
+    ClassicSudoku classic;
+    ForwardDiagonal forwardDiagonal;
+    BackwardDiagonal backwardDiagonal;
+    SudokuRules* rules[] = {&classic, &forwardDiagonal, &backwardDiagonal};
+    RuleSet ruleSet{rules, numRules};
 
-    std::cout << "\nMade sudoku\n\n";
-    std::cin >> subGridSize;
+    Generator generator;
+    Sudoku* sudoku = generator.generate(3, ruleSet, 25);
 
-    // Fill each row from 1 to subGridSize^2 (if placement would be valid)
-    for (int i = 0; i < sudoku->getGridArea(); i++){
-        for (int val = 1; val <= sudoku->getGridSize(); val++){
-            if (!sudoku->isValid(val, i)) { continue; }
-            sudoku->setValue(i, val);
-            break;
-        }
-    }
 
-    if (!sudoku->isValid()) {
-        std::cout << "Board is invalid";
-        return 0;
-    }
 
-    // Display board again
-    sudoku->displayBoard();
 
-    // Check mBoard is being deleted
-    delete sudoku;
+    // // Init sudoku
+    // Sudoku* sudoku;
+    // {
+    //     short numRules = 3;
+    //     ClassicSudoku classic;
+    //     ForwardDiagonal forwardDiagonal;
+    //     BackwardDiagonal backwardDiagonal;
+    //     SudokuRules* rules[] = {&classic, &forwardDiagonal, &backwardDiagonal};
+    //     RuleSet ruleSet{rules, numRules};
+    //     sudoku = new Sudoku(subGridSize, ruleSet);
+
+    // }
+
+    // std::cout << "\nMade sudoku\n\n";
+    // std::cin >> subGridSize;
+
+    // // Fill each row from 1 to subGridSize^2 (if placement would be valid)
+    // for (int i = 0; i < sudoku->getGridArea(); i++){
+    //     for (int val = 1; val <= sudoku->getGridSize(); val++){
+    //         if (!sudoku->isValid(val, i)) { continue; }
+    //         sudoku->setValue(i, val);
+    //         break;
+    //     }
+    // }
+
+    // if (!sudoku->isValid()) {
+    //     std::cout << "Board is invalid";
+    //     return 0;
+    // }
+
+    // // Display board again
+    // sudoku->displayBoard();
+
+    // // Check mBoard is being deleted
+    // delete sudoku;
 
     return 0;
 }

@@ -6,13 +6,17 @@
 
 class Generator {
 
+    private:
+        Sudoku* mSudoku{nullptr};           // Pointer to a sudoku object
+
     public:
         Generator() {}
-        void generate(Sudoku& sudoku, char subGridSize, RuleSet& ruleset);
-        ~Generator() {}
+        Sudoku* generate(char subGridSize, RuleSet& ruleset, short numRandom = 5);
+        ~Generator() { delete mSudoku; }
 
     private:
-        void fillBoard();
+        void fillBoard(short numRandom);
+        void recurse();
         void removeNumbers();
         void makeCages();
         bool isUnique();
